@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  nome VARCHAR NOT NULL,
+  email VARCHAR UNIQUE NOT NULL,
+  senha VARCHAR NOT NULL,
+  role VARCHAR NOT NULL DEFAULT 'atendente',
+  created_at TIMESTAMP NOT NULL DEFAULT now()
+);

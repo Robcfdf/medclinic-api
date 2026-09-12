@@ -10,7 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "useDefineForClassFields": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
