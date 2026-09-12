@@ -1,6 +1,8 @@
 import { UserRepository } from '../repositories/UserRepository';
 import { CreateUserDTO } from '../dtos/CreateUserDTO';
-import { hashPassword } from '../utils/passwordUtils';
+import { LoginDTO } from '../dtos/LoginDTO';
+import { hashPassword, comparePassword } from '../utils/passwordUtils';
+import { generateToken } from '../utils/jwtUtils';
 import { User } from '../entities/User';
 
 export class AuthService {
@@ -33,5 +35,29 @@ export class AuthService {
 
     const { senha: _, ...userSemSenha } = user;
     return userSemSenha;
+  }
+
+  async login(data: LoginDTO): Promise<{ token: string }> {
+    const { email, senha } = data;
+
+    if (!email || !senha) {
+      throw { status: 400, message: 'E-mail e senha são obrigatórios.' };
+    }
+
+    const user = await UserRepository.findOne({ where: { email } });
+
+    if (!user) {
+      throw { status: 401, message: 'Credenciais inválidas.' };
+    }
+
+    const senhaValida = await comparePassword(senha, user.senha);
+
+    if (!senhaValida) {
+      throw { status: 401, message: 'Credenciais inválidas.' };
+    }
+
+    const token = generateToken({ id: user.id, role: user.role });
+
+    return { token };
   }
 }

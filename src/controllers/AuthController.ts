@@ -14,4 +14,15 @@ export class AuthController {
       return res.status(status).json({ error: message });
     }
   }
+
+  async login(req: Request, res: Response): Promise<Response> {
+    try {
+      const result = await authService.login(req.body);
+      return res.status(200).json(result);
+    } catch (error: any) {
+      const status = error.status || 500;
+      const message = error.message || 'Erro interno do servidor.';
+      return res.status(status).json({ error: message });
+    }
+  }
 }
