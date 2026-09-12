@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { AppDataSource } from './database/data-source';
+import authRoutes from './routes/authRoutes';
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ const PORT = process.env.PORT || 3000;
 app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'MedClinic API rodando com sucesso!' });
 });
+
+app.use('/auth', authRoutes);
 
 AppDataSource.initialize()
   .then(() => {
