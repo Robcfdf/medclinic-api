@@ -4,7 +4,9 @@
   "description": "API REST para gerenciamento de clínica médica - Etapa 1: Autenticação e Autorização (Node.js, TypeScript, Express, TypeORM, PostgreSQL)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,6 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.20.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^7.0.2"
+    "typescript": "^5.6.3"
   }
 }
