@@ -5,6 +5,8 @@ import { AppDataSource } from './database/data-source';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import adminRoutes from './routes/adminRoutes';
+import { errorMiddleware } from './middlewares/errorMiddleware';
+import { notFoundMiddleware } from './middlewares/notFoundMiddleware';
 
 dotenv.config();
 
@@ -20,6 +22,9 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/admin', adminRoutes);
+
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 AppDataSource.initialize()
   .then(() => {
