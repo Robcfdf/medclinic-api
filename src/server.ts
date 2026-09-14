@@ -7,6 +7,10 @@ import userRoutes from './routes/userRoutes';
 import adminRoutes from './routes/adminRoutes';
 import { errorMiddleware } from './middlewares/errorMiddleware';
 import { notFoundMiddleware } from './middlewares/notFoundMiddleware';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'js-yaml';
+import fs from 'fs';
+import path from 'path';
 
 dotenv.config();
 
@@ -22,6 +26,11 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/admin', adminRoutes);
+
+const swaggerDocument = YAML.load(
+  fs.readFileSync(path.join(__dirname, '../swagger.yaml'), 'utf8')
+) as object;
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
